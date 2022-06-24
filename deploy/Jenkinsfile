@@ -22,7 +22,7 @@ pipeline{
 
       stage('Checkout SCM') {
          steps{
-            git branch: 'main', url: 'https://github.com/Timmyzooto01/timmy-mgt.git'
+            git branch: 'timi', url: 'https://github.com/Timmyzooto01/timmy-mgt.git'
          }
        }
       stage('Prepare Ansible For Execution') {
