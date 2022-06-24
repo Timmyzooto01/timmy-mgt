@@ -1,7 +1,7 @@
 ---
-- hosts: db
-- name: database assignment
-  import_playbook: ../static-assignments/db.yml
+# - hosts: db
+# - name: database assignment
+#   import_playbook: ../static-assignments/db.yml
 
 # - name: nginx assignment
 #   import_playbook: ../static-assignments/uat-webservers.yml
@@ -14,6 +14,6 @@
 # - name: sonar assignment
 #   import_playbook: ../static-assignments/sonar.yml
 
-#  - hosts: todo
-#  - name: Deploy the todo application
-#    import_playbook: ../static-assignments/deployment.yml
+ - hosts: todo
+ - name: Deploy the todo application
+   import_playbook: ../static-assignments/deployment.yml
