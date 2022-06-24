@@ -7,5 +7,5 @@
 - hosts: db
   become: yes
   roles:
-    - mysql
+    - /home/ubuntu/timmy-mgt/roles/mysql
      
