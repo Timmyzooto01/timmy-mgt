@@ -1,13 +1,49 @@
 pipeline{
-    agent any
+   agent any
 
-    stages{
-        stage('build'){
-            steps{
-                script {
-                  sh 'echo "Building Stage"'
-                }
-            }
-        }
+   environment {
+      ANSIBLE_CONFIG="${WORKSPACE}/deploy/ansible.cfg"
     }
-}
+
+     parameters {
+      string(name: 'inventory_file', defaultValue: 'dev',  description: 'selecting the environment')
+          }
+     
+
+   stages{
+
+      stage("Initial cleanup") {
+          steps {
+            dir("${WORKSPACE}") {
+              deleteDir()
+            }
+          }
+        }
+
+      stage('Checkout SCM') {
+         steps{
+            git branch: 'main', url: 'https://github.com/Timmyzooto01/timmy-mgt.git'
+         }
+       }
+      stage('Prepare Ansible For Execution') {
+        steps {
+          sh 'echo ${WORKSPACE}'  
+          sh 'sed -i "3 a roles_path=${WORKSPACE}/roles" ${WORKSPACE}/deploy/ansible.cfg'          
+        }
+     }
+
+
+      stage('Run Ansible') {
+        steps {
+            ansiblePlaybook become: true, colorized: true, credentialsId: 'Private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventory/dev', playbook: 'playbooks/site.yml'
+        }
+      }
+
+      stage('Clean Workspace after build'){
+        steps{
+          cleanWs()
+        }
+      }
+   }
+}  
+
